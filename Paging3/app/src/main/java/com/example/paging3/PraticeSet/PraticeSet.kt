@@ -3,9 +3,7 @@ package com.example.paging3.PraticeSet
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,9 +18,6 @@ import com.example.paging3.presentation.User
 import com.example.paging3.presentation.UserApiService
 import com.example.paging3.presentation.UserItem
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
 class UserPagingSource2(private  val userApiService: UserApiService): PagingSource<Int, User>(){
     override fun getRefreshKey(state: PagingState<Int, User>): Int? {
