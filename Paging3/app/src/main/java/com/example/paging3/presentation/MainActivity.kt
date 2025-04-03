@@ -31,6 +31,7 @@ import androidx.paging.PagingState
 import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
+import com.example.paging3.PraticeSet.ListOfUsers
 import com.example.paging3.ui.theme.Paging3Theme
 import dagger.hilt.android.AndroidEntryPoint
 import io.ktor.client.HttpClient
@@ -55,7 +56,8 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.Companion.padding(innerPadding)) {
                         val apiService = UserApiService()
                         val viewModel = UserViewModel(apiService)
-                        UserList(viewModel)
+                       // UserList(viewModel)
+                        ListOfUsers()
                     }
                 }
             }
@@ -124,7 +126,6 @@ data class User(
     val company: Company
 )
 
-// Address डेटा क्लास: यूज़र के पते की जानकारी
 @Serializable
 data class Address(
     val street: String,
@@ -134,14 +135,12 @@ data class Address(
     val geo: Geo
 )
 
-// Geo डेटा क्लास: भौगोलिक निर्देशांक
 @Serializable
 data class Geo(
     val lat: String,
     val lng: String
 )
 
-// Company डेटा क्लास: कंपनी की जानकारी
 @Serializable
 data class Company(
     val name: String,
@@ -149,7 +148,6 @@ data class Company(
     val bs: String
 )
 
-// UserList Composable: यूज़र लिस्ट को प्रदर्शित करता है
 @Composable
 fun UserList(viewModel: UserViewModel) {
     val userPagingItems = viewModel.userFlow.collectAsLazyPagingItems()
@@ -164,7 +162,6 @@ fun UserList(viewModel: UserViewModel) {
     }
 }
 
-// UserItem Composable: प्रत्येक यूज़र का विवरण दिखाता है
 @Composable
 fun UserItem(user: User) {
     Card(
