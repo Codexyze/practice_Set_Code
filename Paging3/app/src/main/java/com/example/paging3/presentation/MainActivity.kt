@@ -30,8 +30,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil3.compose.AsyncImage
-import com.example.paging3.PraticeSet.ListOfUsers
 import com.example.paging3.PraticeSet.MyViewModel2
 import com.example.paging3.PraticeSet.SimpleUserScreen
 import com.example.paging3.ui.theme.Paging3Theme
