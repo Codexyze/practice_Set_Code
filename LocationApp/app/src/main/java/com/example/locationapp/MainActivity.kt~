@@ -1,0 +1,211 @@
+package com.example.locationapp
+
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import androidx.core.content.ContextCompat
+import com.example.locationapp.ui.theme.LocationAppTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            LocationAppTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                       // CallScreen(context = this@MainActivity)
+                        MultiplePermissionsApp()
+                    }
+                }
+            }
+        }
+    }
+////
+////@Composable
+////fun LoacationappScreen(){
+////    val requestPermission= rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestMultiplePermissions(),
+////        onResult = {permission->
+////            if(permission[Manifest.permission.ACCESS_FINE_LOCATION]==true && permission[Manifest.permission.ACCESS_COARSE_LOCATION]==true){
+////                //permission granted
+////            }else{
+////                //ask permission
+////            }
+////
+////        })
+////
+////    val locationUtils:LocationUtility=  LocationUtility(this)
+////
+////}
+
+
+    @Composable
+    fun CallScreen(context: Context) {
+        // State to track if permission is granted
+        var isPermissionGranted by remember { mutableStateOf(false) }
+
+        // Launcher to request the CALL_PHONE permission
+        val requestPermissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission()
+        ) { granted ->
+            isPermissionGranted = granted
+        }
+
+        // UI Layout
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = if (isPermissionGranted) "Permission Granted ✅" else "Permission Denied ❌",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+                // Check and request permission if not granted
+                if (isPermissionGranted) {
+                    // If permission is granted, make the call
+                    makePhoneCall(context, "8123890120")
+                } else {
+                    // Request permission
+                    requestPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
+                }
+            }) {
+                Text("Call")
+            }
+        }
+    }
+
+    fun makePhoneCall(context: Context, phoneNumber: String) {
+        try {
+            val callIntent = Intent(Intent.ACTION_CALL).apply {
+                data = Uri.parse("tel:$phoneNumber")
+            }
+            context.startActivity(callIntent)
+        } catch (e: SecurityException) {
+            Toast.makeText(
+                context,
+                "Permission Denied! Unable to make the call.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+}
+@Composable
+fun MultiplePermissionsApp() {
+    // State map to track the status of each permission
+    val permissionsStatus = remember {
+        mutableStateMapOf(
+            Manifest.permission.ACCESS_FINE_LOCATION to false,
+            Manifest.permission.ACCESS_COARSE_LOCATION to false
+        )
+    }
+
+    // Launcher for requesting multiple permissions
+    val requestPermissionsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissionsResult ->
+        // Update the map based on the user's response
+        permissionsResult.forEach { (permission, isGranted) ->
+            permissionsStatus[permission] = isGranted
+        }
+    }
+
+    // Function to check and request all necessary permissions
+    val context = LocalContext.current
+
+    fun requestPermissions() {
+        // Collect all permissions
+        val permissions = permissionsStatus.keys.toList()
+
+        // Filter permissions not already granted
+        val permissionsToRequest = permissions.filter {
+            ContextCompat.checkSelfPermission(
+                context,
+                it
+            ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+        }
+
+        // Launch the permissions request
+        if (permissionsToRequest.isNotEmpty()) {
+            requestPermissionsLauncher.launch(permissionsToRequest.toTypedArray())
+        } else {
+            // All permissions already granted
+            permissionsStatus.forEach { (permission, _) ->
+                permissionsStatus[permission] = true
+            }
+        }
+    }
+
+    // UI Layout
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Permissions Status:",
+            fontSize = 20.sp
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Display each permission's status
+        permissionsStatus.forEach { (permission, isGranted) ->
+            val permissionName = when (permission) {
+                Manifest.permission.ACCESS_FINE_LOCATION -> "Fine Location"
+                Manifest.permission.ACCESS_COARSE_LOCATION -> "Coarse Location"
+                else -> "Unknown Permission"
+            }
+            Text(
+                text = "$permissionName: ${if (isGranted) "Granted ✅" else "Denied ❌"}",
+                fontSize = 16.sp
+            )
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Button to request permissions
+        Button(onClick = { requestPermissions() }) {
+            Text(text = "Request Permissions")
+        }
+    }
+}

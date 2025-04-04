@@ -32,6 +32,8 @@ import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import com.example.paging3.PraticeSet.ListOfUsers
+import com.example.paging3.PraticeSet.MyViewModel2
+import com.example.paging3.PraticeSet.SimpleUserScreen
 import com.example.paging3.ui.theme.Paging3Theme
 import dagger.hilt.android.AndroidEntryPoint
 import io.ktor.client.HttpClient
@@ -57,7 +59,9 @@ class MainActivity : ComponentActivity() {
                         val apiService = UserApiService()
                         val viewModel = UserViewModel(apiService)
                        // UserList(viewModel)
-                        ListOfUsers()
+                        //ListOfUsers()
+                        val viewmodel= MyViewModel2(apiService)
+                        SimpleUserScreen(viewmodel)
                     }
                 }
             }
