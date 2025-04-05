@@ -23,7 +23,11 @@ import kotlinx.coroutines.runBlocking
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GlobalScope()
+       // GlobalScope()
+        //GlobalScopeExample2()
+        //JobExample()
+        //JobExample2()
+        AsyncExample()
 
 
 

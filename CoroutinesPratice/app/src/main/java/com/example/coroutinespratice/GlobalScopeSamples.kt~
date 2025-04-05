@@ -45,7 +45,7 @@ fun GlobalScopeExample2(){
             delay(2000)
         }
     }
-    GlobalScope.launch(Dispatchers.IO) {
+    runBlocking {
         job.join()
         Log.d("COROUTINE", "launch 1 completed Thread : ${Thread.currentThread().name}")
     }
