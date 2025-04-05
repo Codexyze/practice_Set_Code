@@ -13,6 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.coroutinespratice.ui.theme.CoroutinesPraticeTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -27,10 +32,20 @@ class MainActivity : ComponentActivity() {
         //GlobalScopeExample2()
         //JobExample()
         //JobExample2()
-        AsyncExample()
+//        AsyncExample()
+//        lifecycleScope.launch {
+//
+//        }
+        setContent {
+
+            MainAppImplForLifeCycle()
+
+        }
+
 
 
 
     }
 }
+
 
