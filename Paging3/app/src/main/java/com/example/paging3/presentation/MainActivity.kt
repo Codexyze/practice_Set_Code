@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import androidx.paging.PagingState
 import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.paging3.PraticeSet.MyViewModel2
+import com.example.paging3.PraticeSet.ScreenPagging
 import com.example.paging3.PraticeSet.SimpleUserScreen
 import com.example.paging3.ui.theme.Paging3Theme
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +62,7 @@ class MainActivity : ComponentActivity() {
                         //ListOfUsers()
                         val viewmodel= MyViewModel2(apiService)
                         SimpleUserScreen(viewmodel)
+                        //ScreenPagging()
                     }
                 }
             }
@@ -165,7 +168,7 @@ fun UserList(viewModel: UserViewModel) {
 }
 
 @Composable
-fun UserItem(user: User) {
+fun UserItem(user: User, isDark: Boolean = isSystemInDarkTheme()) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
