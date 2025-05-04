@@ -1,3 +1,7 @@
+import com.chaquo.python.PythonExtension
+import org.gradle.internal.impldep.com.jcraft.jsch.ConfigRepository.defaultConfig
+import org.gradle.internal.impldep.org.apache.ivy.util.url.IvyAuthenticator.install
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -21,7 +25,10 @@ android {
                 abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a"))
 
         }
+
+
     }
+
 
 
     buildTypes {
@@ -42,6 +49,15 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+}
+
+chaquopy {
+    defaultConfig {
+        version = "3.8" // Or any supported version: 3.8 to 3.13
+        pip {
+            install("pyjokes") // 👏 This installs the package
+        }
     }
 }
 

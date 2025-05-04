@@ -14,4 +14,5 @@ buildscript {
         classpath ("com.android.tools.build:gradle:8.3.1") // 👉 Replace <latest_version> with actual
         classpath ("com.chaquo.python:gradle:14.0.2")
     }
+
 }
