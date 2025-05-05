@@ -61,7 +61,7 @@
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <list>
-          <option value="pyjokes" />
+          <option value="python.script.docx" />
         </list>
       </option>
     </inspection_tool>

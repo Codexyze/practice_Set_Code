@@ -1,36 +1,25 @@
-import com.chaquo.python.PythonExtension
-import org.gradle.internal.impldep.com.jcraft.jsch.ConfigRepository.defaultConfig
-import org.gradle.internal.impldep.org.apache.ivy.util.url.IvyAuthenticator.install
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.chaquo.python")
+    id("com.google.dagger.hilt.android")
+    kotlin("plugin.serialization") version "2.0.21"
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.example.pythoninandroid"
+    namespace = "com.example.exoplayernotification"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.pythoninandroid"
-        minSdk = 24
+        applicationId = "com.example.exoplayernotification"
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        ndk {
-               // abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a"))
-            abiFilters += listOf("arm64-v8a", "x86_64")
-
-        }
-
-
     }
-
-
 
     buildTypes {
         release {
@@ -53,18 +42,6 @@ android {
     }
 }
 
-chaquopy {
-    defaultConfig {
-        version = "3.8" // Or any supported version: 3.8 to 3.13
-        pip {
-            install("pyjokes") // 👏 This installs the package
-        }
-        pip{
-            install("python-docx")
-        }
-    }
-}
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -82,4 +59,32 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
+    val nav_version = "2.8.3"
+    val room_version = "2.7.0"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation ("androidx.media3:media3-exoplayer:1.5.0")
+    implementation ("androidx.media3:media3-ui:1.5.0")
+    implementation ("androidx.media3:media3-common:1.5.0")
+    implementation ("androidx.media3:media3-session:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation ("io.github.shashank02051997:FancyToast:2.0.2")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("com.airbnb.android:lottie-compose:6.3.0")
+    implementation("androidx.compose.material:material-icons-extended:1.6.1")
+
+
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version") // Use kapt for Kotlin.
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.core:core-splashscreen:1.0.0")
+
+    //Coil
+    implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
+
 }

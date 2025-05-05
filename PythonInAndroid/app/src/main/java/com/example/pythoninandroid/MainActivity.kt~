@@ -137,8 +137,8 @@ fun generateDocFromPython(context: Context, content: String): String? {
         val file = File(context.getExternalFilesDir(null), fileName)
 
         val py = Python.getInstance()
-        val pyObj = py.getModule("script")
-        pyObj.callAttr("document", content, file.absolutePath)
+        val pyObj = py.getModule("generate_doc")
+        pyObj.callAttr("main", content, file.absolutePath)
 
         file.absolutePath
     } catch (e: Exception) {

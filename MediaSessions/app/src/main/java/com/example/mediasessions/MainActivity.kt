@@ -1,9 +1,11 @@
 package com.example.mediasessions
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.media.session.MediaSessionManager
 import android.os.Build
@@ -16,6 +18,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.Keep
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,6 +48,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.MediaSessionService
 import androidx.media3.ui.PlayerView
 import com.example.mediasessions.ui.theme.MediaSessionsTheme
 //
@@ -476,3 +480,140 @@ fun ExoPlayerScreen(player: ExoPlayer) {
         )
     }
 }
+
+
+//
+//private const val NOTIFICATION_ID = 101
+//private const val NOTIFICATION_CHANNEL_NAME = "notification channel 1"
+//private const val NOTIFICATION_CHANNEL_ID = "notification channel id 1"
+//class NotificationManager @Inject constructor(
+//    @ApplicationContext private val context: Context,
+//    private val exoPlayer: ExoPlayer,
+//) {
+//
+//    private val notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
+//    init {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            createNotificationChannel()
+//        }
+//    }
+//
+//    @UnstableApi
+//    private fun buildNotification(mediaSession: MediaSession) {
+//        PlayerNotificationManager.Builder(
+//            context,
+//            NOTIFICATION_ID,
+//            NOTIFICATION_CHANNEL_ID
+//        )
+//            .setMediaDescriptionAdapter(
+//                JetAudioNotificationAdapter(
+//                    context = context,
+//                    pendingIntent = mediaSession.sessionActivity
+//                )
+//            )
+//            .setSmallIconResourceId(R.drawable.lythmlogoasset)
+//            .build()
+//            .also {
+//                it.setUseFastForwardActionInCompactView(true)
+//                it.setUseRewindActionInCompactView(true)
+//                it.setUseNextActionInCompactView(true)
+//                it.setPriority(NotificationCompat.PRIORITY_LOW)
+//                it.setPlayer(exoPlayer)
+//            }
+//    }
+//
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    @UnstableApi
+//    fun startNotificationService(
+//        mediaSessionService: MediaSessionService,
+//        mediaSession: MediaSession,
+//    ) {
+//        buildNotification(mediaSession)
+//        startForeGroundNotificationService(mediaSessionService)
+//    }
+//
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    private fun startForeGroundNotificationService(mediaSessionService: MediaSessionService) {
+//        val notification = Notification.Builder(context,
+//            NOTIFICATION_CHANNEL_ID
+//        )
+//            .setCategory(Notification.CATEGORY_SERVICE)
+//            .build()
+//        mediaSessionService.startForeground(NOTIFICATION_ID, notification)
+//    }
+//
+//
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    private fun createNotificationChannel() {
+//        val channel = NotificationChannel(
+//            NOTIFICATION_CHANNEL_ID,
+//            NOTIFICATION_CHANNEL_NAME,
+//            NotificationManager.IMPORTANCE_LOW
+//        )
+//        notificationManager.createNotificationChannel(channel)
+//    }
+//
+//
+//
+//}
+//
+//
+//
+//@UnstableApi
+//class JetAudioNotificationAdapter(
+//    private val context: Context,
+//    private val pendingIntent: PendingIntent?,
+//) : PlayerNotificationManager.MediaDescriptionAdapter {
+//    override fun getCurrentContentTitle(player: Player): CharSequence =
+//        player.mediaMetadata.albumTitle ?: "Unknown"
+//
+//    override fun createCurrentContentIntent(player: Player): PendingIntent? = pendingIntent
+//
+//    override fun getCurrentContentText(player: Player): CharSequence =
+//        player.mediaMetadata.displayTitle ?: "Unknown"
+//
+//    override fun getCurrentLargeIcon(
+//        player: Player,
+//        callback: PlayerNotificationManager.BitmapCallback,
+//    ): Bitmap? {
+//
+//        return null
+//    }
+//}
+//
+//
+//
+//@AndroidEntryPoint
+//class JetAudioService : MediaSessionService() {
+//    @Inject
+//    lateinit var mediaSession: MediaSession
+//
+//    @Inject
+//    lateinit var notificationManager: com.example.lhythm.core.LocalNotification.NotificationManager
+//
+//    @UnstableApi
+//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            notificationManager.startNotificationService(
+//                mediaSession = mediaSession,
+//                mediaSessionService = this
+//            )
+//        }
+//        return super.onStartCommand(intent, flags, startId)
+//    }
+//
+//    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession =
+//        mediaSession
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        mediaSession.apply {
+//            release()
+//            if (player.playbackState != Player.STATE_IDLE) {
+//                player.seekTo(0)
+//                player.playWhenReady = false
+//                player.stop()
+//            }
+//        }
+//    }
+//}
