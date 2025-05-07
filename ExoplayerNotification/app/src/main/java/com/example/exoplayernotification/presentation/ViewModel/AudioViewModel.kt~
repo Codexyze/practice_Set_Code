@@ -6,14 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.exoplayernotification.domain.SateHandeling.GetAllSongState
 import com.example.exoplayernotification.domain.SateHandeling.ResultState
 import com.example.exoplayernotification.domain.UseCases.GetAllSongUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class AudioViewModel @Inject constructor(private val getAllSongUseCase: GetAllSongUseCase): ViewModel() {
     private val _getAllSongsState= MutableStateFlow(GetAllSongState())
     val getAllSongsState = _getAllSongsState.asStateFlow()

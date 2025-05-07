@@ -22,7 +22,7 @@ object DiModule {
 
     @Singleton
     @Provides
-    fun GetAllSongUseCase(audioRepository: AudioRepository): GetAllSongUseCase {
-        return GetAllSongUseCase(audioRepository = audioRepository)
+    fun GetAllSongUseCaseObj(audioRepository: AudioRepository): GetAllSongUseCase {
+        return GetAllSongUseCase(getAllSongRepository = audioRepository)
     }
 }
