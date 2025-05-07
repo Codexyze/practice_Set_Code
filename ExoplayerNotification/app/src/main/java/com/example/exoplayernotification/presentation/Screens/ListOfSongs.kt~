@@ -32,8 +32,8 @@ fun ListOfSongs(audioViewModel: AudioViewModel = hiltViewModel(),
                 items(getAllSongState.value.data) { song ->
                     Column {
                         Text(text = song.title.toString())
-                        Row {
-                           Button(
+                                        Row {
+                    Button(
                         onClick = {
                            audioControllerViewModel.playMusic(songUri = song.path.toUri())
                         }
@@ -71,3 +71,29 @@ fun ListOfSongs(audioViewModel: AudioViewModel = hiltViewModel(),
     }
 
 }
+
+//  Column(modifier = Modifier.weight(1f)) {
+//                Row {
+//                    Button(
+//                        onClick = {
+//                            audioViewModel
+//                        }
+//                    ) {
+//                        Text("Play")
+//                    }
+//                    Button(
+//                        onClick = {
+//
+//                        }
+//                    ) {
+//                        Text("Pause")
+//                    }
+//                    Button(
+//                        onClick = {
+//
+//                        }
+//                    ) {
+//                        Text("Stop")
+//                    }
+//                }
+//            }
