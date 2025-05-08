@@ -33,30 +33,31 @@ fun ListOfSongs(audioViewModel: AudioViewModel = hiltViewModel(),
                     Column {
                         Text(text = song.title.toString())
                         Row {
-                           Button(
-                        onClick = {
-                           audioControllerViewModel.playMusic(songUri = song.path.toUri())
-                        }
-                    ) {
-                        Text("Play")
-                    }
-                    Button(
-                        onClick = {
-                            audioControllerViewModel.pauseMusic()
+                            Button(
+                                onClick = {
+                                    audioControllerViewModel.playMusic(songUri = song.path.toUri())
+                                }
+                            ) {
+                                Text("Play")
+                            }
+                            Button(
+                                onClick = {
+                                    audioControllerViewModel.pauseMusic()
 
-                        }
-                    ) {
-                        Text("Pause")
-                    }
-                    Button(
-                        onClick = {
-                            audioControllerViewModel.stopMusic()
+                                }
+                            ) {
+                                Text("Pause")
+                            }
+                            Button(
+                                onClick = {
+                                    audioControllerViewModel.stopMusic()
 
+                                }
+                            ) {
+                                Text("Stop")
+                            }
                         }
-                    ) {
-                        Text("Stop")
-                    }
-                }
+
                     }
 
 

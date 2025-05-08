@@ -5,15 +5,22 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.MediaSession
+import androidx.media3.session.MediaSessionService
+import com.example.exoplayernotification.data.Notification.NotificationManagerHelper
 import javax.inject.Inject
 
-class MediaController @Inject constructor(private val exoPlayer: ExoPlayer, context: Context) {
+class MediaController @Inject constructor(private val exoPlayer: ExoPlayer, context: Context,
+    private val mediaSession: MediaSession,
+    private  val notificationManagerHelper: NotificationManagerHelper):
+    MediaSessionService() {
     private val context = context
     fun playMusic(song: Uri){
         exoPlayer.apply {
             setMediaItem(MediaItem.fromUri(song))
             prepare()
             playWhenReady = true
+            notificationManagerHelper.playerNotification()
         }
     }
     fun pauseMusic(){
@@ -30,5 +37,16 @@ class MediaController @Inject constructor(private val exoPlayer: ExoPlayer, cont
         }else{
             Toast.makeText(context, "Song is Not playing", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
+        return  mediaSession
+    }
+
+    override fun onDestroy() {
+        exoPlayer.release()
+        mediaSession.release()
+
+        super.onDestroy()
     }
 }

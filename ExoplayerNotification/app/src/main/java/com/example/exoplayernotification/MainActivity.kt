@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.exoplayernotification.presentation.Screens.ListOfSongs
 import com.example.exoplayernotification.ui.theme.ExoplayerNotificationTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
