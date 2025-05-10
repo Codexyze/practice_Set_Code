@@ -1,5 +1,6 @@
 package com.example.exoplayernotification.presentation.Screens
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.exoplayernotification.data.MusicForeGround.MusicForeGround
 import com.example.exoplayernotification.presentation.ViewModel.AudioControllerViewModel
 import com.example.exoplayernotification.presentation.ViewModel.AudioViewModel
 
@@ -23,6 +26,7 @@ fun ListOfSongs(audioViewModel: AudioViewModel = hiltViewModel(),
     LaunchedEffect(Unit) {
         audioViewModel.getAllSong()
     }
+    val context = LocalContext.current
     val getAllSongState = audioViewModel.getAllSongsState.collectAsState()
     if(getAllSongState.value.isLoading){
         CircularProgressIndicator()
@@ -36,6 +40,9 @@ fun ListOfSongs(audioViewModel: AudioViewModel = hiltViewModel(),
                             Button(
                                 onClick = {
                                     audioControllerViewModel.playMusic(songUri = song.path.toUri())
+                                    val intent = Intent(context, MusicForeGround::class.java)
+                                    context.startService(intent)
+
                                 }
                             ) {
                                 Text("Play")

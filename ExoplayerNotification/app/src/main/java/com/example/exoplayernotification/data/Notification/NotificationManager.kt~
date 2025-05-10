@@ -1,7 +1,6 @@
 package com.example.exoplayernotification.data.Notification
 
 
-import android.R
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -45,7 +44,6 @@ fun createAndReturnNotification(): Notification {
         1,
         CHANNELID
     ).setSmallIconResourceId(androidx.media3.session.R.drawable.media3_notification_small_icon)
-        .setStopActionIconResourceId(R.drawable.ic_menu_manage)
         .setMediaDescriptionAdapter(CustomMediaDescriptionAdapter())
         .build().apply {
             setPlayer(exoPlayer)
