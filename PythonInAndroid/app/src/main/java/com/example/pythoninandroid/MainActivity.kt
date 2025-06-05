@@ -160,3 +160,7 @@ fun openFile(context: Context, path: String) {
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     context.startActivity(Intent.createChooser(intent, "Open with"))
 }
+
+fun example(){
+
+}

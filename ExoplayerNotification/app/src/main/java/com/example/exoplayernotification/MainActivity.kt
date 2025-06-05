@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.exoplayernotification.data.MusicForeGround.MusicForeGround
 import com.example.exoplayernotification.presentation.Screens.ListOfSongs
+import com.example.exoplayernotification.presentation.Screens.MusicPlayerWithEqualizer
 import com.example.exoplayernotification.ui.theme.ExoplayerNotificationTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,7 +30,8 @@ class MainActivity : ComponentActivity() {
             ExoplayerNotificationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        ListOfSongs()
+                       // ListOfSongs()
+                        MusicPlayerWithEqualizer()
 
                     }
                 }
