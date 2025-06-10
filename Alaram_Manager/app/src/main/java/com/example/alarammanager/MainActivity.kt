@@ -31,12 +31,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.alarammanager.AlaramHandler.AlaramHandler
+import com.example.alarammanager.NotificationHandler.createNotificationChannel
 import com.example.alarammanager.data.AlaramItem
 import com.example.alarammanager.ui.theme.AlaramManagerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannel(this)
         enableEdgeToEdge()
         setContent {
             AlaramManagerTheme {
