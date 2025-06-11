@@ -20,12 +20,15 @@ android {
 
     buildTypes {
         release {
-            
-            isMinifyEnabled = false
+            //set true to enable proguard
+            isMinifyEnabled = true
+            //Compress the app and optimizes
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
