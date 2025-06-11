@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#Keeps this file dont obfucicate
+-keep class com.example.proguardrules.Fake.Fake
+
+#Keeps all class that implements the FakeRepository
+-keep class * implements com.example.proguardrules.Domain.FakeRepository
+
+-keep class   com.example.proguardrules.Data.Remote.**{*;}

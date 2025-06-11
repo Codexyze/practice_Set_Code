@@ -1,8 +1,8 @@
 package com.example.proguardrules.Fake
 
-import androidx.annotation.Keep
 
-@Keep
+//@Keep Keeps the class if annotated
+
 data class Fake(
     val name: String
 )
