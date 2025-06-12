@@ -30,3 +30,22 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+class Calculator {
+
+    // Simple addition function
+    fun add(a: Int, b: Int): Int{
+        return a+b
+    }
+
+    // Subtraction
+    fun subtract(a: Int, b: Int): Int{
+        return a-b
+    }
+
+    // Division with exception check
+    fun divide(a: Int, b: Int): Int {
+        if (b == 0) throw IllegalArgumentException("Cannot divide by zero")
+        return a / b
+    }
+}
