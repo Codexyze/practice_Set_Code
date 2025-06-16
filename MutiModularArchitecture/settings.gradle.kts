@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "MutiModularArchitecture"
 include(":app")
- 
+include(":Network")
