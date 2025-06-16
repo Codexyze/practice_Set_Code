@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "MutiModularArchitecture"
 include(":app")
 include(":Network")
+include(":presentation")
