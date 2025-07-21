@@ -21,7 +21,7 @@ fun MemeScreen(viewModel: MyViewModel= hiltViewModel()) {
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
             items(memeState.value.memes){ meme ->
-                Text(meme.toString())
+                Text(meme.url.toString())
             }
         }
     }
