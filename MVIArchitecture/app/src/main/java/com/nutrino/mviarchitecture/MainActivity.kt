@@ -225,8 +225,6 @@ sealed interface StateInterfaceIntent{
 
 class viewModel(): ViewModel(){
     val repository = repository()
-    val job = SupervisorJob()
-    val scope = CoroutineScope(job + Dispatchers.Main)
   val state = MutableStateFlow(State())
     
     fun onIntent(intent : StateInterfaceIntent){
@@ -256,13 +254,4 @@ class viewModel(): ViewModel(){
            }
        }
     }
-}
-
-@Composable
-fun MyApiScreen() {
-
-    val viewmodel  = viewModel()
-
-
-
 }
