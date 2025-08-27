@@ -1,0 +1,141 @@
+//Only Paggin no offline caching
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            Paging3Theme {
+                Scaffold(modifier = Modifier.Companion.fillMaxSize()) { innerPadding ->
+                    Box(modifier = Modifier.Companion.padding(innerPadding)) {
+                        val apiService = UserApiService()
+                        val viewModel = UserViewModel(apiService)
+                       // UserList(viewModel)
+                        //ListOfUsers()
+                        val viewmodel= MyViewModel2(apiService)
+                        SimpleUserScreen(viewmodel)
+                        //ScreenPagging()
+                    }
+                }
+            }
+        }
+    }
+}
+
+object KtorClient {
+    val client = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(Json { ignoreUnknownKeys = true })
+        }
+    }
+}
+
+class UserApiService {
+    suspend fun fetchUsers(page:Int): List<User> {
+        return KtorClient.client.get("https://jsonplaceholder.typicode.com/users"){
+            parameter("page",page)
+        }.body()
+    }
+}
+
+class UserPagingSource(private val apiService: UserApiService) : PagingSource<Int, User>() {
+    override fun getRefreshKey(state: PagingState<Int, User>): Int? {
+       return 1
+    }
+//    override fun getRefreshKey(state: PagingState<Int, User>): Int? = state.anchorPosition?.let { anchorPosition ->
+//        val anchorPage = state.closestPageToPosition(anchorPosition)
+//        anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+//    }
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, User> {
+        return try {
+            val currentPage = params.key ?: 1  // Default to page 1 if no key provided
+            val users = apiService.fetchUsers(page = currentPage)
+
+            LoadResult.Page(
+                data = users,
+                prevKey = if (currentPage == 1) null else currentPage - 1,  // No previous page if on page 1
+                nextKey = if (users.isEmpty()) null else currentPage + 1    // If API returns empty, no more pages
+            )
+        } catch (e: Exception) {
+            LoadResult.Error(e)
+        }
+    }
+}
+
+class UserViewModel(private val apiService: UserApiService) : ViewModel() {
+
+    val userFlow: Flow<PagingData<User>> = Pager(
+        config = PagingConfig(pageSize = 10),
+        pagingSourceFactory = { UserPagingSource(apiService) }
+    ).flow.cachedIn(viewModelScope)
+}
+
+@Serializable
+data class User(
+    val id: Int,
+    val name: String,
+    val username: String,
+    val email: String,
+    val address: Address,
+    val phone: String,
+    val website: String,
+    val company: Company
+)
+
+@Serializable
+data class Address(
+    val street: String,
+    val suite: String,
+    val city: String,
+    val zipcode: String,
+    val geo: Geo
+)
+
+@Serializable
+data class Geo(
+    val lat: String,
+    val lng: String
+)
+
+@Serializable
+data class Company(
+    val name: String,
+    val catchPhrase: String,
+    val bs: String
+)
+
+@Composable
+fun UserList(viewModel: UserViewModel) {
+    val userPagingItems = viewModel.userFlow.collectAsLazyPagingItems()
+
+    LazyColumn {
+        items(userPagingItems.itemCount) { index ->
+            val user = userPagingItems[index]
+            user?.let {
+                UserItem(user)
+            }
+        }
+    }
+}
+
+@Composable
+fun UserItem(user: User, isDark: Boolean = isSystemInDarkTheme()) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp)
+        ) {
+
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(text = user.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+    }
+}

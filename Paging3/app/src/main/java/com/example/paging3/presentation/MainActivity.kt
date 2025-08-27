@@ -47,6 +47,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
+//Room
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
+import androidx.room.Database
+
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,15 +69,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Paging3Theme {
-                Scaffold(modifier = Modifier.Companion.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier.Companion.padding(innerPadding)) {
+                val context = LocalContext.current
+
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Box(modifier = Modifier.padding(innerPadding)) {
                         val apiService = UserApiService()
-                        val viewModel = UserViewModel(apiService)
-                       // UserList(viewModel)
-                        //ListOfUsers()
-                        val viewmodel= MyViewModel2(apiService)
-                        SimpleUserScreen(viewmodel)
-                        //ScreenPagging()
+                        val viewModel = UserViewModel(context, apiService)
+                        UserListScreen(viewModel)
                     }
                 }
             }
@@ -70,6 +83,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// -------------------- Ktor Client --------------------
 object KtorClient {
     val client = HttpClient(CIO) {
         install(ContentNegotiation) {
@@ -79,46 +93,94 @@ object KtorClient {
 }
 
 class UserApiService {
-    suspend fun fetchUsers(page:Int): List<User> {
-        return KtorClient.client.get("https://jsonplaceholder.typicode.com/users"){
-            parameter("page",page)
+    suspend fun fetchUsers(page: Int): List<User> {
+        return KtorClient.client.get("https://jsonplaceholder.typicode.com/users") {
+            parameter("page", page)
         }.body()
     }
 }
 
-class UserPagingSource(private val apiService: UserApiService) : PagingSource<Int, User>() {
-    override fun getRefreshKey(state: PagingState<Int, User>): Int? {
-       return 1
-    }
-//    override fun getRefreshKey(state: PagingState<Int, User>): Int? = state.anchorPosition?.let { anchorPosition ->
-//        val anchorPage = state.closestPageToPosition(anchorPosition)
-//        anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
-//    }
+// -------------------- Room DB --------------------
+@Entity(tableName = "users")
+data class UserEntity(
+    @PrimaryKey val id: Int,
+    val name: String,
+    val username: String,
+    val email: String
+)
+
+fun User.toEntity() = UserEntity(id, name, username, email)
+fun UserEntity.toDomain() = User(
+    id = id,
+    name = name,
+    username = username,
+    email = email,
+    address = Address("", "", "", "", Geo("", "")),
+    phone = "",
+    website = "",
+    company = Company("", "", "")
+)
+
+@Dao
+interface UserDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(users: List<UserEntity>)
+
+    @Query("SELECT * FROM users")
+    suspend fun getAll(): List<UserEntity>
+}
+
+@Database(entities = [UserEntity::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+}
+
+fun provideDatabase(context: android.content.Context) =
+    Room.databaseBuilder(context, AppDatabase::class.java, "app_db").build()
+
+// -------------------- Paging Source --------------------
+class UserPagingSource(
+    private val apiService: UserApiService,
+    private val userDao: UserDao
+) : PagingSource<Int, User>() {
+    override fun getRefreshKey(state: PagingState<Int, User>): Int? = 1
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, User> {
+        val page = params.key ?: 1
         return try {
-            val currentPage = params.key ?: 1  // Default to page 1 if no key provided
-            val users = apiService.fetchUsers(page = currentPage)
-
+            val users = apiService.fetchUsers(page)
+            if (users.isNotEmpty()) {
+                userDao.insertAll(users.map { it.toEntity() }) // cache in Room
+            }
             LoadResult.Page(
                 data = users,
-                prevKey = if (currentPage == 1) null else currentPage - 1,  // No previous page if on page 1
-                nextKey = if (users.isEmpty()) null else currentPage + 1    // If API returns empty, no more pages
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = if (users.isEmpty()) null else page + 1
             )
         } catch (e: Exception) {
-            LoadResult.Error(e)
+            // fallback to cached data
+            val cached = userDao.getAll().map { it.toDomain() }
+            if (cached.isNotEmpty()) {
+                LoadResult.Page(data = cached, prevKey = null, nextKey = null)
+            } else {
+                LoadResult.Error(e)
+            }
         }
     }
 }
 
-class UserViewModel(private val apiService: UserApiService) : ViewModel() {
+// -------------------- ViewModel --------------------
+class UserViewModel(context: android.content.Context, apiService: UserApiService) : ViewModel() {
+    private val db = provideDatabase(context)
+    private val userDao = db.userDao()
 
     val userFlow: Flow<PagingData<User>> = Pager(
         config = PagingConfig(pageSize = 10),
-        pagingSourceFactory = { UserPagingSource(apiService) }
+        pagingSourceFactory = { UserPagingSource(apiService, userDao) }
     ).flow.cachedIn(viewModelScope)
 }
 
+// -------------------- Domain Model --------------------
 @Serializable
 data class User(
     val id: Int,
@@ -153,16 +215,14 @@ data class Company(
     val bs: String
 )
 
+// -------------------- Compose UI --------------------
 @Composable
-fun UserList(viewModel: UserViewModel) {
+fun UserListScreen(viewModel: UserViewModel) {
     val userPagingItems = viewModel.userFlow.collectAsLazyPagingItems()
-
-    LazyColumn {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(userPagingItems.itemCount) { index ->
             val user = userPagingItems[index]
-            user?.let {
-                UserItem(user)
-            }
+            user?.let { UserItem(user) }
         }
     }
 }
@@ -175,10 +235,7 @@ fun UserItem(user: User, isDark: Boolean = isSystemInDarkTheme()) {
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp)
-        ) {
-
+        Row(modifier = Modifier.padding(16.dp)) {
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(text = user.name, style = MaterialTheme.typography.titleMedium)
