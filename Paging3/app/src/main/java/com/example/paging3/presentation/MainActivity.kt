@@ -31,9 +31,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.paging3.PraticeSet.MyViewModel2
-import com.example.paging3.PraticeSet.ScreenPagging
-import com.example.paging3.PraticeSet.SimpleUserScreen
 import com.example.paging3.ui.theme.Paging3Theme
 import dagger.hilt.android.AndroidEntryPoint
 import io.ktor.client.HttpClient
