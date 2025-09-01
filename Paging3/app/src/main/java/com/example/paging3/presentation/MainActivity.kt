@@ -129,6 +129,42 @@ class UserApiService {
         }.body()
     }
 }
+// -------------------- Domain Model --------------------
+
+// Serializable annotation allows Kotlinx.serialization to parse JSON
+@Serializable
+data class User(
+    val id: Int,
+    val name: String,
+    val username: String,
+    val email: String,
+    val address: Address,
+    val phone: String,
+    val website: String,
+    val company: Company
+)
+
+@Serializable
+data class Address(
+    val street: String,
+    val suite: String,
+    val city: String,
+    val zipcode: String,
+    val geo: Geo
+)
+
+@Serializable
+data class Geo(
+    val lat: String,
+    val lng: String
+)
+
+@Serializable
+data class Company(
+    val name: String,
+    val catchPhrase: String,
+    val bs: String
+)
 
 // -------------------- Room DB --------------------
 
@@ -143,7 +179,9 @@ data class UserEntity(
 )
 
 // Convert domain User model to DB entity
-fun User.toEntity() = UserEntity(id, name, username, email)
+fun User.toEntity(): UserEntity {
+    return  UserEntity(this.id, this.name, this.username, this.email)
+}
 
 // Convert DB entity back to domain User model
 fun UserEntity.toDomain() = User(
@@ -200,7 +238,9 @@ class UserPagingSource(
 
             // Cache fetched users in Room for offline support
             if (users.isNotEmpty()) {
-                userDao.insertAll(users.map { it.toEntity() })
+                userDao.insertAll(users.map {
+                    it.toEntity()
+                })
             }
 
             // Return a successful page to Paging library
@@ -236,42 +276,6 @@ class UserViewModel(context: android.content.Context, apiService: UserApiService
     ).flow.cachedIn(viewModelScope) // cache in ViewModel scope to survive rotations
 }
 
-// -------------------- Domain Model --------------------
-
-// Serializable annotation allows Kotlinx.serialization to parse JSON
-@Serializable
-data class User(
-    val id: Int,
-    val name: String,
-    val username: String,
-    val email: String,
-    val address: Address,
-    val phone: String,
-    val website: String,
-    val company: Company
-)
-
-@Serializable
-data class Address(
-    val street: String,
-    val suite: String,
-    val city: String,
-    val zipcode: String,
-    val geo: Geo
-)
-
-@Serializable
-data class Geo(
-    val lat: String,
-    val lng: String
-)
-
-@Serializable
-data class Company(
-    val name: String,
-    val catchPhrase: String,
-    val bs: String
-)
 
 // -------------------- Compose UI --------------------
 
