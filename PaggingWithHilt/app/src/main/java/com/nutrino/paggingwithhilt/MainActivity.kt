@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.nutrino.paggingwithhilt.Presentation.Screens.UserListScreen
 import com.nutrino.paggingwithhilt.ui.theme.PaggingWithHiltTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
             PaggingWithHiltTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)){
+                        UserListScreen()
 
                     }
 

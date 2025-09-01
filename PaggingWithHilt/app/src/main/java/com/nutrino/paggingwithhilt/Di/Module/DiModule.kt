@@ -1,9 +1,13 @@
 package com.nutrino.paggingwithhilt.Di.Module
 
 import android.content.Context
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.nutrino.paggingwithhilt.Data.Local.UserDatabase
+import com.nutrino.paggingwithhilt.Data.Pagging.UserPaggingSouce
+import com.nutrino.paggingwithhilt.Data.Remote.User
 import com.nutrino.paggingwithhilt.Data.RepoImpl.ApiServiceRepoImpl
 import com.nutrino.paggingwithhilt.Domain.Repository.ApiServiceRepo
 import com.nutrino.paggingwithhilt.Domain.UseCases.GetAllUserUseCase
@@ -48,12 +52,18 @@ object DiModule {
     }
 
     @Singleton
+    @Provides
     fun apiServiceObj(httpClient: HttpClient): ApiServiceRepo{
         return ApiServiceRepoImpl(httpClient = httpClient)
     }
 
     @Singleton
+    @Provides
     fun apiServiceUseCaseObj(apiServiceRepo: ApiServiceRepo): GetAllUserUseCase{
         return GetAllUserUseCase(apiServiceRepo = apiServiceRepo)
     }
+
+
+
+
 }

@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 
 class ApiServiceRepoImpl @Inject constructor(private val httpClient: HttpClient) : ApiServiceRepo {
-    override suspend fun getAllUsers(page: Int): List<User?> {
+    override suspend fun getAllUsers(page: Int): List<User> {
 
         try {
             val data = httpClient.get("https://jsonplaceholder.typicode.com/users") {

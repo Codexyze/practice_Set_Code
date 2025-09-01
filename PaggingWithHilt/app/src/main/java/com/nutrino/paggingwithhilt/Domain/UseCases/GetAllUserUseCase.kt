@@ -5,7 +5,7 @@ import com.nutrino.paggingwithhilt.Domain.Repository.ApiServiceRepo
 import javax.inject.Inject
 
 class GetAllUserUseCase @Inject constructor(private val apiServiceRepo: ApiServiceRepo)  {
-    suspend operator fun invoke(page: Int): List<User?>{
+    suspend operator fun invoke(page: Int): List<User>{
         return apiServiceRepo.getAllUsers(page = page)
     }
 }
