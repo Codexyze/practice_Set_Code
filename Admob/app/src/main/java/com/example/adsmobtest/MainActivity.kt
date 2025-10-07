@@ -31,7 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+
 import com.example.adsmobtest.AdScreens.BannerAds
+
+import com.example.adsmobtest.AdScreens.SafeInterstitialAdScreen
 import com.example.adsmobtest.AdScreens.interstialADS
 import com.example.adsmobtest.ui.theme.AdsMobTestTheme
 import kotlinx.coroutines.CoroutineScope
@@ -45,28 +48,32 @@ class MainActivity : ComponentActivity() {
         val backgroundScope = CoroutineScope(Dispatchers.IO)
         backgroundScope.launch {
             // Initialize the Google Mobile Ads SDK on a background thread.
-           // MobileAds.initialize(this@MainActivity) {}
+            // MobileAds.initialize(this@MainActivity) {}
         }
         setContent {
 
             AdsMobTestTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                   Box(modifier = Modifier.padding(innerPadding)){
-//                       Text("Hello world")
-//                       //Banner
-//                      // BannerAds()
-//                       //Interstial
-//                       Button(onClick = {
-//                           interstialADS(this@MainActivity)
-//                       }) {
-//                           Text("Show Add")
-//                       }
-//                   }
-                    ScaffoldExample()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    Box(modifier = Modifier.padding(innerPadding)) {
+//                        Text("Hello world")
+//                        //Banner
+//                        // BannerAds()
+//                        //Interstial
+//                        Button(onClick = {
+//                            interstialADS(this@MainActivity)
+//                        }) {
+//                            Text("Show Add")
+//                        }
+//                        AdScreen()
+//                    }
+                    SafeInterstitialAdScreen()
+                    //ScaffoldExample()
+
                 }
             }
         }
     }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
