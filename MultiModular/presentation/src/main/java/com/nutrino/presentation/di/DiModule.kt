@@ -10,10 +10,10 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object DiModule {
-//    @Provides
-//    fun provideUseCase(repository: Repository): GetAllMemesUseCase {
-//        return GetAllMemesUseCase(repository)
-//    }
+    @Provides
+    fun provideUseCase(repository: Repository): GetAllMemesUseCase {
+        return GetAllMemesUseCase(repository)
+    }
 
 
 }

@@ -41,10 +41,6 @@ object DiModule {
         return RepoImpl(httpClient = httpClient)
     }
 
-    @Provides
-    fun provideUseCase(repository: Repository): GetAllMemesUseCase {
-        return GetAllMemesUseCase(repository)
-    }
 
 
 
