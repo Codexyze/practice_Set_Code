@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.CameraPosition
@@ -35,6 +36,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.nutrino.maps_in_compose.getLocation.getLocation
 import com.nutrino.maps_in_compose.ui.theme.Maps_In_ComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -42,11 +44,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val context = LocalContext.current
             Maps_In_ComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   MountainMap(
-                       paddingValues = innerPadding
-                   )
+//                   MountainMap(
+//                       paddingValues = innerPadding
+//                   )
+                    Box(
+                        modifier = Modifier.padding(innerPadding)
+                    ){
+                        MountainMapSimple(paddingValues = innerPadding)
+                    }
                 }
             }
         }
@@ -154,6 +162,36 @@ fun MountainMap(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+        }
+    }
+}
+@Composable
+fun MountainMapSimple(paddingValues: PaddingValues) {
+    // Store markers placed by user
+    var markers by remember { mutableStateOf(listOf<LatLng>()) }
+
+    // Camera position - starts at Himalayas
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(LatLng(27.9881, 86.9250), 6f)
+    }
+
+    // The map
+    GoogleMap(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
+        cameraPositionState = cameraPositionState,
+        // Add marker when user taps
+        onMapClick = { latLng ->
+            markers = markers + latLng
+        }
+    ) {
+        // Show all markers
+        markers.forEachIndexed { index, latLng ->
+            Marker(
+                state = MarkerState(position = latLng),
+                title = "Marker ${index + 1}"
+            )
         }
     }
 }
