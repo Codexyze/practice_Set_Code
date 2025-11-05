@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nutrino.razorpaytestgateway.payment.PaymentActivity
 import com.nutrino.razorpaytestgateway.ui.theme.RazorPayTestgatewayTheme
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
@@ -144,32 +143,3 @@ fun PaymentScreen(
         }
     }
 }
-//
-//class MainActivity : ComponentActivity(){
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-//        Checkout.preload(applicationContext)
-//
-//        setContent {
-//            RazorPayTestgatewayTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Box(
-//                        modifier = Modifier.padding(innerPadding),
-//                        contentAlignment = Alignment.Center
-//                    ){
-//                        Button(onClick = {
-//                            val intent = Intent(this@MainActivity,PaymentActivity::class.java)
-//                            startActivity(intent)
-//
-//                        }) {
-//                            Text("PayNow")
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
