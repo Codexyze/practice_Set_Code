@@ -7,9 +7,12 @@
   "type": "commonjs",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1" ,
+    "start" : "node .\basicapp.js"
+
   },
   "dependencies": {
+    "express": "^5.2.1",
     "one-liner-joke": "^1.2.2"
   }
 }
