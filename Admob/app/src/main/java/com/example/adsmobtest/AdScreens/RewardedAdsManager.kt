@@ -47,7 +47,10 @@ class RewardedAdsManager(private val context: Context) {
             }
             override fun onAdDismissedFullScreenContent() {
                 rewardedAd = null
-                _state.value = RewardedAdState.Dismissed
+                // Only move to Dismissed if a reward wasn't already earned
+                if (_state.value !is RewardedAdState.RewardEarned) {
+                    _state.value = RewardedAdState.Dismissed
+                }
                 // Preload next
                 load()
             }
