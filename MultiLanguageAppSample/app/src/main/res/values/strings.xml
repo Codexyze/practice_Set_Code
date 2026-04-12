@@ -1,0 +1,4 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="MissingTranslation">Multi Language App Sample</string>
+    <string name="sample_text">Hello This is sample text transalted in multiple languages</string>
+</resources>
