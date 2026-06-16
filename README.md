@@ -30,11 +30,14 @@ If you're looking for fully-architected projects, check out my other repos like 
 |--------|-------------|
 | **Admob** | Practice set for integrating Google Admob (Coming soon). |
 | **Alaram_Manager** | 📅 A basic AlarmManager setup in Android.<br>👉 [Official Docs](https://developer.android.com/reference/android/app/AlarmManager) |
+| **Backend with Node** | 🌐 Node.js backend implementation for Note Saver app. |
 | **CoroutinesPratice** | Playground for Kotlin Coroutines + Lifecycle-aware scopes. <br>👉 [Coroutines Guide](https://developer.android.com/kotlin/coroutines) |
 | **ExoplayerNotification** | Setup for ExoPlayer + MediaStyle Notification.<br>👉 [Media3 Docs](https://developer.android.com/guide/topics/media/media3/getting-started) |
 | **Intents** | 🔗 Learn about explicit & implicit intents in Compose. <br>📖 [My Medium Blog](https://medium.com/@akshaysarapure/intents-in-android-for-jetpack-compose-users-dc0391601b9b)<br>👉 [Intent Docs](https://developer.android.com/reference/android/content/Intent) |
+| **Kotlin Interview** | 📝 Comprehensive notes and study materials covering core Kotlin fundamentals and interview prep. |
 | **LocationApp** | 📍 Real-time location tracking using Jetpack Compose & FusedLocationProvider. <br>📝 [My Medium Blog](https://medium.com/@akshaysarapure/realtime-location-in-android-using-jetpack-compose-390411e996ea)<br>👉 [Location Docs](https://developer.android.com/training/location) |
 | **MediaSessions** | 🎧 Exploring Android MediaSessions API with music playback. |
+| **MultiLanguageAppSample** | 🌍 Multilingual support using Android string resources and Jetpack Compose. |
 | **MutiScreenSize** | 📱 Responsive UI with multiple screen size support. |
 | **Paging3** | 📃 Paging3 Library implementation for infinite lists. <br>👉 [Paging Docs](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) |
 | **PythonInAndroid** | 🐍 Embedding Python in Android using Chaquopy. |
@@ -99,4 +102,3 @@ This repository is an **ever-growing learning hub** 📚. I'm on a constant miss
 💬Linkdin Profile : [Linkdin](https://www.linkedin.com/in/akshay-sarapure-0a1677213/)
 
 ---
-
