@@ -30,6 +30,7 @@ android {
     }
     buildFeatures {
         compose = true
+        mlModelBinding = false
     }
 }
 
