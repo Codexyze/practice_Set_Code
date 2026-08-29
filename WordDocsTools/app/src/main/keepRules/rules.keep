@@ -1,0 +1,48 @@
+# Add project specific R8 rules here.
+# AGP will combine all keep rule files in src/main/keepRules to pass to R8
+
+# Preserve attributes necessary for reflection, generics, annotations, and inner classes
+-keepattributes Exceptions, InnerClasses, Signature, Deprecated, SourceFile, LineNumberTable, *Annotation*, EnclosingMethod
+
+# Suppress missing class warnings for optional dependencies used by Apache POI / XMLBeans / Log4j
+-dontwarn aQute.bnd.annotation.baseline.BaselineIgnore
+-dontwarn aQute.bnd.annotation.spi.ServiceConsumer
+-dontwarn aQute.bnd.annotation.spi.ServiceProvider
+-dontwarn com.github.luben.zstd.**
+-dontwarn edu.umd.cs.findbugs.annotations.**
+-dontwarn java.awt.**
+-dontwarn javax.xml.stream.**
+-dontwarn net.sf.saxon.**
+-dontwarn org.osgi.framework.**
+-dontwarn com.microsoft.schemas.**
+-dontwarn org.openxmlformats.schemas.**
+-dontwarn org.tukaani.xz.**
+
+# Apache POI & XMLBeans runtime keep rules
+-dontwarn org.apache.poi.**
+-dontwarn org.apache.xmlbeans.**
+-dontwarn com.zaxxer.sparsebitset.**
+
+-keep class org.apache.poi.** { *; }
+-keep class org.apache.xmlbeans.** { *; }
+-keep class org.openxmlformats.schemas.** { *; }
+-keep class org.apache.poi.schemas.** { *; }
+-keep class com.microsoft.schemas.** { *; }
+-keep class openxmlformats.** { *; }
+-keep class schemaorg_apache_xmlbeans.** { *; }
+
+# Keep POI Document Parts constructors (used reflectively by POIXMLFactory)
+-keep class * extends org.apache.poi.ooxml.POIXMLDocumentPart {
+    public <init>(...);
+}
+
+# Keep all XmlBeans SchemaType fields and Factory instances used reflectively
+-keepclassmembers class * extends org.apache.xmlbeans.XmlObject {
+    public static *** type;
+    public static *** Factory;
+}
+
+-keepclassmembers class * {
+    public static *** type;
+    public static *** Factory;
+}

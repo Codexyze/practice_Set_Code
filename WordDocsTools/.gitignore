@@ -1,0 +1,96 @@
+# Built application files & outputs
+*.apk
+*.ap_
+*.aab
+*.aae
+*.dex
+outputs/
+
+# ProGuard / R8 mapping and obfuscation output files
+mapping.txt
+seeds.txt
+usage.txt
+dump.txt
+resources.txt
+missing_rules.txt
+configuration.txt
+*.mapping
+
+# Gradle, Kotlin and Build Cache
+.gradle/
+build/
+*/build/
+.kotlin/
+.kotlin-*/
+*.kotlin_module
+
+# Local configuration & environment variables
+local.properties
+secrets.properties
+private.properties
+release.properties
+keys.properties
+apikeys.properties
+api_keys.properties
+keystore.properties
+signing.properties
+gradle.properties.user
+
+# Environment files (.env, .env.local, .env.production, etc.)
+.env
+.env.*
+*.env
+*.env.*
+*.local
+*.secret
+*.secrets
+
+# Firebase, Google, Cloud Services & API Credentials
+google-services.json
+GoogleService-Info.plist
+firebase.json
+agconnect-services.json
+aws-services.json
+amplify-build-config.json
+service-account*.json
+serviceAccount*.json
+credentials.json
+credentials.xml
+secrets.json
+secrets.xml
+apikeys.xml
+keys.xml
+sentry.properties
+
+# Keystores, Certificates, and Signing Keys
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+*.der
+*.crt
+*.pfx
+*.pkcs12
+private_keys/
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Profiling and Logs
+*.log
+*.hprof
+release
