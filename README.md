@@ -29,20 +29,39 @@ If you're looking for fully-architected projects, check out my other repos like 
 | Module | Description |
 |--------|-------------|
 | **Admob** | Practice set for integrating Google Admob (Coming soon). |
+| **Advance_Kotlin** | 📘 Advanced Kotlin tutorials and concept practice modules. |
 | **Alaram_Manager** | 📅 A basic AlarmManager setup in Android.<br>👉 [Official Docs](https://developer.android.com/reference/android/app/AlarmManager) |
+| **Animination_In_Compose** | 🎞️ Jetpack Compose animation tutorials and UI motion experiments. |
+| **ApiSecureNDK** | 🔐 Tutorials focused on API key/security handling using Android NDK approaches. |
 | **Backend with Node** | 🌐 Node.js backend implementation for Note Saver app. |
+| **BroadCastRecivers** | 📢 Practice examples for Android Broadcast Receivers. |
+| **ComposeUIPratice** | 🎨 Jetpack Compose UI component and layout practice tutorials. |
 | **CoroutinesPratice** | Playground for Kotlin Coroutines + Lifecycle-aware scopes. <br>👉 [Coroutines Guide](https://developer.android.com/kotlin/coroutines) |
 | **ExoplayerNotification** | Setup for ExoPlayer + MediaStyle Notification.<br>👉 [Media3 Docs](https://developer.android.com/guide/topics/media/media3/getting-started) |
 | **Intents** | 🔗 Learn about explicit & implicit intents in Compose. <br>📖 [My Medium Blog](https://medium.com/@akshaysarapure/intents-in-android-for-jetpack-compose-users-dc0391601b9b)<br>👉 [Intent Docs](https://developer.android.com/reference/android/content/Intent) |
 | **Kotlin Interview** | 📝 Comprehensive notes and study materials covering core Kotlin fundamentals and interview prep. |
 | **LocationApp** | 📍 Real-time location tracking using Jetpack Compose & FusedLocationProvider. <br>📝 [My Medium Blog](https://medium.com/@akshaysarapure/realtime-location-in-android-using-jetpack-compose-390411e996ea)<br>👉 [Location Docs](https://developer.android.com/training/location) |
+| **MLModelinAndroid** | 🤖 Machine Learning model integration tutorials in Android. |
+| **Maps_In_Compose** | 🗺️ Google Maps integration and map UI tutorials in Jetpack Compose. |
 | **MediaSessions** | 🎧 Exploring Android MediaSessions API with music playback. |
+| **MVIArchitecture** | 🧱 Practice implementation of MVI architecture patterns in Android. |
 | **MultiLanguageAppSample** | 🌍 Multilingual support using Android string resources and Jetpack Compose. |
+| **MultiModular** | 🧩 Tutorials for setting up and practicing Android multi-module projects. |
+| **MutiModularArchitecture** | 🏗️ Practice project for modular architecture organization in Android. |
 | **MutiScreenSize** | 📱 Responsive UI with multiple screen size support. |
+| **PaggingWithHilt** | 📄 Paging tutorials integrated with Hilt dependency injection. |
 | **Paging3** | 📃 Paging3 Library implementation for infinite lists. <br>👉 [Paging Docs](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) |
+| **PaymentGateWay** | 💳 Payment gateway integration tutorials and experiments. |
+| **ProguardRules** | 🛡️ Tutorials and practice for ProGuard/R8 rule configuration. |
 | **PythonInAndroid** | 🐍 Embedding Python in Android using Chaquopy. |
+| **QrCode_Maker** | 🧾 QR code generation tutorials in Android. |
+| **Qr_Code_Reader** | 📷 QR code scanning/reader tutorials in Android. |
+| **RazorPayTestgateway** | 💸 Razorpay payment integration practice module. |
 | **Sensor** | 📡 Exploring Android Sensor APIs. |
 | **TestingCode** | 🧪 Basic unit and instrumentation test setup. |
+| **Voice_To_Text** | 🗣️ Voice-to-text recognition tutorials for Android apps. |
+| **Widgets_In_Android** | 🧰 Android widget development and usage practice modules. |
+| **WordDocsTools** | 📄 Document/word tools related Android practice tutorials. |
 
 ---
 
